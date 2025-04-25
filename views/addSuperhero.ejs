@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Superhéroe</title>
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+            let errores = [];
+    
+            const nombre = document.getElementById("nombreSuperheroe").value.trim();
+            const edad = document.getElementById("edad").value.trim();
+            const planeta = document.getElementById("planetaOrigen").value.trim();
+            const debilidad = document.getElementById("debilidad").value.trim();
+            const poderes = document.getElementById("poderes").value.trim();
+            const creador = document.getElementById("creador").value.trim();
+    
+            if (nombre === "") errores.push("El nombre del superhéroe es obligatorio.");
+            if (isNaN(edad) || edad <= 0) errores.push("La edad debe ser un número positivo.");
+            if (planeta === "") errores.push("El planeta de origen es obligatorio.");
+            if (debilidad === "") errores.push("La debilidad es obligatoria.");
+            if (poderes === "") errores.push("Debe ingresar al menos un poder.");
+            if (creador === "") errores.push("El nombre del creador es obligatorio");
+    
+            if (errores.length > 0) {
+                event.preventDefault();
+                alert(errores.join("\n"));
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Agregar Nuevo Superhéroe</h1>
+    
+    <% if (error) { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
+
+    <form action="/api/heroes/agregar" method="POST">
+        <label for="nombreSuperheroe">Nombre del Superhéroe:</label>
+        <input type="text" id="nombreSuperheroe" name="nombreSuperheroe" required>
+
+        <label for="nombreReal">Nombre Real:</label>
+        <input type="text" id="nombreReal" name="nombreReal" required>
+
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad" name="edad" required min="1">
+
+        <label for="planetaOrigen">Planeta de Origen:</label>
+        <input type="text" id="planetaOrigen" name="planetaOrigen" required>
+
+        <label for="debilidad">Debilidad:</label>
+        <input type="text" id="debilidad" name="debilidad" required>
+
+        <label for="poderes">Poderes (separados por coma):</label>
+        <input type="text" id="poderes" name="poderes" required>
+
+        <label for="aliados">Aliados (separados por coma):</label>
+        <input type="text" id="aliados" name="aliados">
+
+        <label for="enemigos">Enemigos (separados por coma):</label>
+        <input type="text" id="enemigos" name="enemigos">
+
+        <label for="creador">Creador:</label>
+        <input type="text" id="creador" name="creador" required>
+
+        <button type="submit">Agregar Superhéroe</button>
+    </form>
+
+    <a href="/api/heroes">Volver al Dashboard</a>
+</body>
+</html>

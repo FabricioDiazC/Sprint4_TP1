@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Superhéroes</title>
+</head>
+<body>
+    <h1>Lista de Superhéroes</h1>
+    <a href="/api/heroes/agregar"><button>Agregar Superhéroe</button></a>
+    <table border="1">
+      <thead>
+          <tr>
+              <th>Nombre</th>
+              <th>Nombre Real</th>
+              <th>Edad</th>
+              <th>Planeta de Origen</th>
+              <th>Debilidad</th>
+              <th>Poderes</th>
+              <th>Aliados</th>
+              <th>Enemigos</th>
+              <th>Creador</th>
+              <th>Acciones</th>
+          </tr>
+      </thead>
+      <tbody>
+          <% superheroes.forEach(superheroe => { %>
+              <tr>
+                  <td><%= superheroe.nombreSuperHeroe %></td>
+                  <td><%= superheroe.nombreReal %></td>
+                  <td><%= superheroe.edad %> años</td>
+                  <td><%= superheroe.planetaOrigen %></td>
+                  <td><%= superheroe.debilidad %></td>
+                  <td><%= superheroe.poderes.join(', ') %></td>
+                  <td><%= superheroe.aliados.length ? superheroe.aliados.join(', ') : 'Ninguno' %></td>
+                  <td><%= superheroe.enemigos.length ? superheroe.enemigos.join(', ') : 'Ninguno' %></td>
+                  <td><%= superheroe.creador %></td>
+                  <td>
+                    <a href="/api/heroes/<%= superheroe.id %>/editar" style="margin-top: 5px; display: inline-block;">Editar</a>
+                    <button onclick="confirmarEliminacion('<%= superheroe.id %>')" style="background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+                      Eliminar
+                    </button>
+                  </td>
+              </tr>
+          <% }) %>
+      </tbody>
+  </table>
+
+
+      <!-- Confirmar eliminación -->
+  <script>
+    function confirmarEliminacion(id) {
+      if (confirm("¿Estás seguro de que quieres eliminar este superhéroe?")) {
+        fetch(`/api/heroes/${id}`, { method: 'DELETE' })
+          .then(response => {
+            if (response.ok) {
+              window.location.reload();
+            } else {
+              alert("Error al eliminar el superhéroe.");
+            }
+          })
+          .catch(error => console.error("Error:", error));
+      }
+    }
+  </script>
+    
+</body>
+</html>
